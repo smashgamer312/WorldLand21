@@ -1,15 +1,64 @@
- <title>Проверка на робота</title>
-<style>
-h1 {
-     color: purple;
-     font-family: Impact;
-   }
-  p  {
-     color: red;
-     font size: 100px;
-    width: 200%;
-    font-family: Impact;
-  }
-  </style>
- <h1>Проверка на робота</h1><br>
- <h1>Припишите к ссылке buy</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Капча</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .captcha-container {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        .captcha {
+            font-size: 24px;
+            font-weight: bold;
+            background: #f3f3f3;
+            padding: 10px;
+            display: inline-block;
+            letter-spacing: 3px;
+            user-select: none;
+        }
+        .refresh {
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form onsubmit="return validateCaptcha()">
+        <label>Введите код с картинки:</label>
+        <div class="captcha-container">
+            <span id="captcha" class="captcha"></span>
+            <span class="refresh" onclick="generateCaptcha()">🔄</span>
+        </div>
+        <input type="text" id="captchaInput" required>
+        <button type="submit">Проверить</button>
+    </form>
+    <script>
+        let currentCaptcha = "";
+
+        function generateCaptcha() {
+            currentCaptcha = Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById("captcha").textContent = currentCaptcha;
+        }
+
+        function validateCaptcha() {
+            let userInput = document.getElementById("captchaInput").value.toUpperCase();
+            if (userInput !== currentCaptcha) {
+                alert("Капча введена неверно!");
+                generateCaptcha();
+                return false;
+            }
+            alert("Капча подтверждена! Замените index на buy");
+            return true;
+        }
+
+        generateCaptcha();
+    </script>
+</body>
+</html>
